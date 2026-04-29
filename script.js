@@ -17,26 +17,50 @@ const heroVideo     = document.getElementById('hero-video');
 function handleScroll() {
   const viewportHeight = window.innerHeight;
 
-  // --- Timeline line fill ---
-  // Calculates how far the user has scrolled through the #story section
-  // and maps that to a 0–100% height on the decorative vertical line.
-  const storyRect    = storySection.getBoundingClientRect();
-  const storyHeight  = storySection.offsetHeight;
-  const scrolledPast = Math.max(0, -storyRect.top);
-  const fillPercent  = Math.min(100, (scrolledPast / (storyHeight - viewportHeight)) * 100);
-
-  trackFill.style.height = fillPercent + '%';
-
   // --- Chapter visibility ---
-  // An item becomes "visible" (full opacity, no vertical offset)
-  // when its vertical midpoint falls within the middle 80% of the viewport.
   timelineItems.forEach(item => {
-    const rect      = item.getBoundingClientRect();
-    const midpoint  = rect.top + rect.height / 2;
-    const inView    = midpoint > viewportHeight * 0.1 && midpoint < viewportHeight * 0.9;
-
+    const rect     = item.getBoundingClientRect();
+    const midpoint = rect.top + rect.height / 2;
+    const inView = midpoint > viewportHeight * 0.1 && midpoint < viewportHeight * 1.2;
     item.classList.toggle('visible', inView);
   });
+
+  // --- Timeline line fill ---
+  const storyTop    = storySection.getBoundingClientRect().top + window.scrollY;
+  const storyHeight = storySection.offsetHeight;
+  const scrolledPast = Math.max(0, -storySection.getBoundingClientRect().top);
+
+  const ch4Dot  = document.querySelector('.timeline-item--center .timeline-dot');
+  const ch5Item = document.querySelector('.timeline-item--video');
+  const ch5Dot  = ch5Item ? ch5Item.querySelector('.timeline-dot') : null;
+  const lastDot = document.querySelector('.timeline-item--final .timeline-dot');
+
+  const dotToPercent = (dot) => {
+    const dotCenter = dot.getBoundingClientRect().top + window.scrollY + dot.offsetHeight / 2;
+    return ((dotCenter - storyTop) / storyHeight) * 100;
+  };
+
+  const ch4Pct  = ch4Dot  ? dotToPercent(ch4Dot)  : 50;
+  const ch5Pct  = ch5Dot  ? dotToPercent(ch5Dot)  : 60;
+  const maxFill = lastDot ? dotToPercent(lastDot)  : 100;
+
+  const rawFill = Math.min(maxFill, (scrolledPast / (storyHeight - viewportHeight)) * 100);
+
+  // Segment 1: top to Chapter 4 dot
+  const fill1 = Math.min(ch4Pct, rawFill);
+  trackFill.style.height = fill1 + '%';
+
+  // Segment 2: Chapter 5 dot onward — only starts after scroll passes ch4
+  const fill2El = document.getElementById('trackFill2');
+  if (fill2El) {
+    if (rawFill > ch5Pct) {
+      const fill2 = Math.min(maxFill, rawFill) - ch5Pct;
+      fill2El.style.top    = ch5Pct + '%';
+      fill2El.style.height = fill2 + '%';
+    } else {
+      fill2El.style.height = '0%';
+    }
+  }
 }
 
 
@@ -47,6 +71,8 @@ function handleScroll() {
 function handleVideoError() {
   heroVideo.style.display = 'none';
 }
+
+
 
 
 // ── EVENT LISTENERS ───────────────────────
