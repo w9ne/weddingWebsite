@@ -220,7 +220,6 @@ body {
 /* Scroll-driven fill */
 .timeline-track-fill {
   position: absolute;
-  z-index: 2;
   top: 0;
   left: 0;
   right: 0;
@@ -341,7 +340,9 @@ body {
   flex-direction: row;
   flex-wrap: wrap;
   gap: 0.6rem;
-  justify-content: center;
+  justify-content: flex-start; 
+  margin-left: 0;
+  padding-left: 0;
 }
 
 .timeline-item:nth-child(odd) .timeline-photo-group {
@@ -373,7 +374,7 @@ body {
 .timeline-photo-potrait {
   width: 100%;
   max-width: 140px;
-  height: 200px;
+  height: 190px;
   object-fit: cover;
   border-radius: 12px;
   border: 1px solid rgba(201, 160, 122, 0.2);
@@ -471,10 +472,8 @@ body {
   border-radius: 12px;
   border: 1px solid rgba(201, 160, 122, 0.2);
   filter: saturate(0.85) brightness(0.95);
-  transition: filter 0.4s, transform 0.4s;
+  transition: filter 0.4s, transform 0.4t;
 }
-
-/* ── Masks the line behind chapter 4 photos ── */
 
 .timeline-photo-center:hover,
 .timeline-photo-center-potrait:hover {
@@ -684,7 +683,7 @@ footer p {
     padding-left: 2rem;
   }
 
-  .timeline-track { left: 0.5rem; z-index: 2;}
+  .timeline-track { left: 0.5rem; }
   .timeline-dot   { left: 0.5rem; }
 
   .timeline-content,
@@ -699,3 +698,371 @@ footer p {
   .timeline-spacer { display: none; }
   .timeline-text   { max-width: 100%; }
 }
+
+/* ── Music Player ── */
+#music-player {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 100;
+}
+
+#music-icon {
+  width: 44px;
+  height: 44px;
+  background: var(--dark3);
+  border: 1px solid rgba(201, 160, 122, 0.3);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: var(--rosegold);
+  cursor: pointer;
+  transition: border-color 0.3s;
+  margin-left: auto;
+}
+
+#music-icon:hover {
+  border-color: var(--rosegold);
+}
+
+#music-controls {
+  display: none;
+  flex-direction: column;
+  gap: 0.6rem;
+  background: var(--dark3);
+  border: 1px solid rgba(201, 160, 122, 0.2);
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  min-width: 160px;
+}
+
+#music-player:hover #music-controls {
+  display: flex;
+}
+
+#music-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--rosegold);
+  font-weight: 200;
+}
+
+#volume-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 2px;
+  background: var(--dark);
+  outline: none;
+  border-radius: 2px;
+  accent-color: var(--rosegold);
+}
+
+#music-toggle {
+  background: none;
+  border: 1px solid rgba(201, 160, 122, 0.3);
+  color: var(--rosegold);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  padding: 0.4rem 0.6rem;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: 'Jost', sans-serif;
+  transition: border-color 0.3s, background 0.3s;
+}
+
+#music-toggle:hover {
+  border-color: var(--rosegold);
+  background: rgba(201, 160, 122, 0.1);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MOBILE RESPONSIVE ADDITIONS — wedding site
+   Paste this at the very bottom of styles.css
+   All rules are scoped to max-width: 640px so they ONLY
+   activate on mobile and never touch the desktop layout.
+   ═══════════════════════════════════════════════════════════ */
+
+@media (max-width: 640px) {
+
+  /* ── HERO ── */
+  #hero {
+    height: 90vh;
+    min-height: 480px;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    margin-bottom: 0.9rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.4rem, 12vw, 3.2rem);
+    line-height: 1.1;
+  }
+
+  .hero-date {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    margin-top: 1rem;
+  }
+
+  .scroll-hint {
+    bottom: 1rem;
+  }
+
+
+  /* ── SHARED SECTION LABELS ── */
+  .section-title {
+    font-size: clamp(1.7rem, 7vw, 2.4rem);
+    margin-bottom: 3rem;
+  }
+
+  .section-eyebrow {
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+  }
+
+
+  /* ── STORY SECTION ── */
+  #story {
+    padding: 4rem 0 5rem;
+  }
+
+
+  /* ── TIMELINE TRACK ── */
+  /* Override the existing 640px rule that moves track to left: 0.5rem */
+  .timeline-track {
+    left: 1rem !important;
+  }
+
+  .timeline-dot {
+    left: 1rem !important;
+    transform: translateX(-50%);
+  }
+
+
+  /* ── TIMELINE ITEMS (all) ── */
+  .timeline {
+    padding: 0 1rem 0 1.5rem;
+  }
+
+  .timeline-item,
+  .timeline-item:nth-child(odd),
+  .timeline-item:nth-child(even) {
+    flex-direction: column !important;
+    text-align: left !important;
+    padding-left: 2rem;
+    gap: 1rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .timeline-item:nth-child(odd) .timeline-content,
+  .timeline-item:nth-child(even) .timeline-content {
+    align-items: flex-start !important;
+    text-align: left !important;
+  }
+
+  /* ── TIMELINE CONTENT ── */
+  .timeline-content,
+  .timeline-content-center,
+  .timeline-content-final {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .timeline-heading {
+    font-size: clamp(1.2rem, 5.5vw, 1.5rem);
+  }
+
+  .timeline-text {
+    font-size: 0.85rem;
+    line-height: 1.75;
+    max-width: 100%;
+  }
+
+  .timeline-year {
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+  }
+
+
+  /* ── PHOTO GROUPS ── */
+  .timeline-photo-group,
+  .timeline-photo-group-odd {
+    width: 100% !important;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  /* Remove the negative left margin on ch2's inner div */
+  .timeline-photo-group-odd > div {
+    margin-left: 0 !important;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+
+  /* ── PHOTO SIZING ── */
+  .timeline-photo-massive {
+    max-width: 100%;
+    width: 100%;
+    height: 200px;
+  }
+
+  .timeline-photo-potrait {
+    max-width: calc(50% - 0.25rem);
+    width: calc(50% - 0.25rem);
+    height: 170px;
+  }
+
+  .timeline-photo {
+    max-width: 100%;
+    width: 100%;
+    height: 160px;
+  }
+
+
+  /* ── VIDEO SLOT ── */
+  .timeline-video-slot {
+    width: 100%;
+    margin: 0;
+  }
+
+  .timeline-video,
+  .timeline-item--video .timeline-video {
+    height: 220px;
+    width: 100%;
+    max-width: 100%;
+  }
+
+
+  /* ── CHAPTER 4 (center layout) ── */
+  .timeline-item--center {
+    padding-left: 2rem;
+    align-items: flex-start;
+    text-align: left !important;
+  }
+
+  .timeline-item--center .timeline-dot {
+    position: absolute;
+    left: 1rem !important;
+    top: 0;
+    transform: translateX(-50%);
+  }
+
+  .timeline-content-center {
+    align-items: flex-start;
+    text-align: left;
+    margin-top: 1.5rem;
+  }
+
+  .timeline-photo-group-center {
+    justify-content: flex-start;
+    gap: 0.5rem;
+  }
+
+  .timeline-photo-center-potrait {
+    width: calc(50% - 0.25rem);
+    height: 180px;
+  }
+
+  .timeline-photo-center {
+    width: calc(50% - 0.25rem);
+    height: 150px;
+  }
+
+
+  /* ── CHAPTER 6 (final) ── */
+  .timeline-item--final {
+    padding-left: 2rem;
+    align-items: flex-start;
+    text-align: left !important;
+  }
+
+  .timeline-item--final .timeline-dot {
+    position: absolute;
+    left: 1rem !important;
+    top: 0;
+    transform: translateX(-50%);
+  }
+
+  .timeline-content-final {
+    align-items: flex-start;
+    text-align: left;
+    margin-top: 1.5rem;
+    max-width: 100%;
+  }
+
+  .timeline-content-final .timeline-heading {
+    font-size: clamp(1.8rem, 8vw, 2.4rem);
+  }
+
+  .timeline-content-final .timeline-year {
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+  }
+
+  .timeline-content-final .timeline-text {
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+
+  /* ── QR / REGISTRY ── */
+  #qr {
+    padding: 4rem 1.5rem;
+  }
+
+  .qr-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .qr-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .qr-card {
+    width: 100%;
+    max-width: 300px;
+    min-width: unset;
+    padding: 2rem;
+  }
+
+
+  /* ── MUSIC PLAYER ── */
+  #music-player {
+    bottom: 1rem;
+    right: 1rem;
+  }
+
+  #music-controls {
+    min-width: 140px;
+  }
+
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 2rem 1.5rem;
+  }
+
+  footer p {
+    font-size: 1rem;
+  }
+
+  .ornament {
+    font-size: 1.1rem;
+    margin-bottom: 1.2rem;
+  }
+
+}
+/* ═══ END MOBILE ADDITIONS ═══ */

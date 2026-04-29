@@ -28,6 +28,19 @@
     </div>
   </section>
 
+    <!-- ═══ MUSIC PLAYER ═══ -->
+  <div id="music-player">
+    <div id="music-controls">
+      <span id="music-label">Now Playing</span>
+      <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.4" />
+      <button id="music-toggle">⏸ Pause</button>
+    </div>
+    <div id="music-icon">♪</div>
+    <audio id="bg-music" loop>
+      <source src="media/heartbeatsforyou.mp3" type="audio/mpeg" />
+    </audio>
+  </div>
+
 
   <!-- ═══ OUR STORY ═══ -->
   <section id="story">
@@ -57,12 +70,13 @@
 
       <!-- ── CHAPTER 2 ── -->
       <div class="timeline-item">
-        <div class ="timeline-photo-group-odd">
-          <img src="pics/gaharu.jpg" alt="" class="timeline-photo-potrait" />
-          <img src="pics/firstMeetingDinner.jpg" alt="" class="timeline-photo-potrait" />
+        <div class="timeline-photo-group-odd">
+        <div style="margin-left: -4rem; display: flex; flex-wrap: wrap; gap: 0.6rem;">
+          <img src="pics/firstMeetingDinner.jpg" alt="" class="timeline-photo-massive"/>
           <img src="pics/cute.jpg" alt="" class="timeline-photo-massive" />
           <img src="pics/koreabbq.jpg" alt="" class="timeline-photo-massive" />
         </div>
+      </div>
         <div class="timeline-dot"></div>
         <div class="timeline-content">
           <span class="timeline-year">Chapter II · November 2023</span>
@@ -93,7 +107,7 @@
         </div>
       </div>
 
-      <!-- ── CHAPTER 4 ── -->
+     <!-- ── CHAPTER 4 ── -->
     <div class="timeline-item timeline-item--center">
       <div class="timeline-dot"></div>
       <div class="timeline-content-center">
@@ -103,9 +117,7 @@
           Many have called them crazy and its not wrong to assume that, yet they remained committed to the promise of meeting up every other break. 
           They broke the promise anyway because they met almost every break.
         </p>
-        <p class="timeline-text">
-          Places visited: Utah x3 · Los Angeles x1 · Malaysia x1 · Alaska x1
-        </p>
+        <p class="timeline-text">Places visited: Utah x3 · Los Angeles x1 · Malaysia x1 · Alaska x1</p>
         <div class="timeline-photo-group-center">
           <img src="pics/LAbathroom.jpg" alt="" class="timeline-photo-center-potrait" />
           <img src="pics/alaska2.jpg" alt="" class="timeline-photo-center-potrait" />
@@ -113,7 +125,7 @@
           <img src="pics/Hawaii.jpg" alt="" class="timeline-photo-center-potrait" />
           <img src="pics/utahTemple.jpg" alt="" class="timeline-photo-center-potrait" />
           <img src="pics/doublePolaroid.jpg" alt="" class="timeline-photo-center-potrait" />
-          <img src="pics/handsHenna.jpg" alt="" class="timeline-photo-center-potrait" />
+          <img src="pics/winterwonerland.jpg" alt="" class="timeline-photo-center-potrait" />
           <img src="pics/disney.jpg" alt="" class="timeline-photo-center-potrait" />
           <img src="pics/firstDateRecreate.jpg" alt="" class="timeline-photo-center-potrait" />
         </div>
@@ -163,6 +175,7 @@
     <div class="qr-grid">
 
       <!-- ── Amazon Registry ── -->
+      <a href="https://www.amazon.com/wedding/guest-view/27SP08S4Y27EB" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;">
       <div class="qr-card">
         <span class="qr-label">Registry</span>
         <div class="qr-placeholder">
@@ -231,6 +244,7 @@
         <p class="qr-name">Amazon Registry</p>
         <p class="qr-desc">Scan to view our<br/>wish list on Amazon</p>
       </div>
+    </a>
 
       <!-- ── Venmo ── -->
       <div class="qr-card">
