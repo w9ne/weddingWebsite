@@ -23,7 +23,12 @@ function handleScroll() {
   const storyRect    = storySection.getBoundingClientRect();
   const storyHeight  = storySection.offsetHeight;
   const scrolledPast = Math.max(0, -storyRect.top);
-  const fillPercent  = Math.min(100, (scrolledPast / (storyHeight - viewportHeight)) * 100);
+  const lastDot = document.querySelector('.timeline-item--final .timeline-dot');
+  const storyTop = storySection.getBoundingClientRect().top + window.scrollY;
+  const dotCenter = lastDot.getBoundingClientRect().top + window.scrollY + (lastDot.offsetHeight / 2);
+  const maxFill = ((dotCenter - storyTop) / storyHeight) * 100;
+  const fillPercent = Math.min(maxFill, (scrolledPast / (storyHeight - viewportHeight)) * 100);
+
 
   trackFill.style.height = fillPercent + '%';
 
