@@ -220,6 +220,7 @@ body {
 /* Scroll-driven fill */
 .timeline-track-fill {
   position: absolute;
+  z-index: 2;
   top: 0;
   left: 0;
   right: 0;
@@ -372,7 +373,7 @@ body {
 .timeline-photo-potrait {
   width: 100%;
   max-width: 140px;
-  height: 190px;
+  height: 200px;
   object-fit: cover;
   border-radius: 12px;
   border: 1px solid rgba(201, 160, 122, 0.2);
@@ -414,6 +415,69 @@ body {
 }
 
 .timeline-photo-massive:hover {
+  filter: saturate(1) brightness(1.05);
+  transform: scale(1.02);
+}
+
+/* ── Chapter 4 centered layout ── */
+.timeline-item--center {
+  justify-content: center;
+  text-align: center;
+  flex-direction: column !important;
+  align-items: center;
+}
+
+.timeline-item--center .timeline-dot {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+}
+
+.timeline-content-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  max-width: 680px;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.timeline-photo-group-center {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+.timeline-photo-center {
+  width: 220px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid rgba(201, 160, 122, 0.2);
+  filter: saturate(0.85) brightness(0.95);
+  transition: filter 0.4s, transform 0.4s;
+}
+
+.timeline-photo-center-potrait {
+  width: 170px;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid rgba(201, 160, 122, 0.2);
+  filter: saturate(0.85) brightness(0.95);
+  transition: filter 0.4s, transform 0.4s;
+}
+
+/* ── Masks the line behind chapter 4 photos ── */
+
+.timeline-photo-center:hover,
+.timeline-photo-center-potrait:hover {
   filter: saturate(1) brightness(1.05);
   transform: scale(1.02);
 }
@@ -620,7 +684,7 @@ footer p {
     padding-left: 2rem;
   }
 
-  .timeline-track { left: 0.5rem; }
+  .timeline-track { left: 0.5rem; z-index: 2;}
   .timeline-dot   { left: 0.5rem; }
 
   .timeline-content,
