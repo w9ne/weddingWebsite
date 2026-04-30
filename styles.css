@@ -51,13 +51,11 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 10%; 
+  object-position: 50% 10%;
   opacity: 0.55;
   filter: saturate(0.6) brightness(0.7);
 }
 
-
-/* Fallback gradient shown when no video is loaded */
 #hero-fallback {
   position: absolute;
   inset: 0;
@@ -65,7 +63,6 @@ body {
   z-index: 0;
 }
 
-/* Bottom fade overlay */
 #hero::after {
   content: '';
   position: absolute;
@@ -207,7 +204,6 @@ body {
   padding: 0 2rem;
 }
 
-/* Central vertical track */
 .timeline-track {
   position: absolute;
   left: 50%;
@@ -219,7 +215,6 @@ body {
   overflow: hidden;
 }
 
-/* Scroll-driven fill */
 .timeline-track-fill {
   position: absolute;
   top: 0;
@@ -236,7 +231,6 @@ body {
   box-shadow: 0 0 12px rgba(201, 160, 122, 0.4);
 }
 
-/* Timeline items */
 .timeline-item {
   position: relative;
   display: flex;
@@ -253,7 +247,6 @@ body {
   transform: translateY(0);
 }
 
-/* Alternate left/right layout */
 .timeline-item:nth-child(odd) {
   flex-direction: row;
   text-align: right;
@@ -267,7 +260,6 @@ body {
 .timeline-item:nth-child(odd)  .timeline-content { align-items: flex-end; }
 .timeline-item:nth-child(even) .timeline-content { align-items: flex-start; }
 
-/* Center dot */
 .timeline-dot {
   position: absolute;
   left: 50%;
@@ -326,8 +318,8 @@ body {
 
 /* ── Timeline Photos ── */
 .timeline-photo-group {
-  width: calc(70%);   
-  flex-shrink: 0;               
+  width: calc(70%);
+  flex-shrink: 0;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -342,13 +334,13 @@ body {
   flex-direction: row;
   flex-wrap: wrap;
   gap: 0.6rem;
-  justify-content: flex-start; 
+  justify-content: flex-start;
   margin-left: 0;
   padding-left: 0;
 }
 
 .timeline-item:nth-child(odd) .timeline-photo-group {
-  justify-content: flex-start; /* left-side chapters align photos to the left */
+  justify-content: flex-start;
 }
 
 .timeline-photo {
@@ -407,16 +399,8 @@ body {
   width: 100%;
 }
 
-.timeline-photo:hover {
-  filter: saturate(1) brightness(1.05);
-  transform: scale(1.02);
-}
-
-.timeline-photo-potrait:hover {
-  filter: saturate(1) brightness(1.05);
-  transform: scale(1.02);
-}
-
+.timeline-photo:hover,
+.timeline-photo-potrait:hover,
 .timeline-photo-massive:hover {
   filter: saturate(1) brightness(1.05);
   transform: scale(1.02);
@@ -474,7 +458,7 @@ body {
   border-radius: 12px;
   border: 1px solid rgba(201, 160, 122, 0.2);
   filter: saturate(0.85) brightness(0.95);
-  transition: filter 0.4s, transform 0.4t;
+  transition: filter 0.4s, transform 0.4s;
 }
 
 .timeline-photo-center:hover,
@@ -503,10 +487,27 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  max-width: 280px;
+  max-width: 600px;
   text-align: center;
-  margin-top: 2rem;  /* pushes text below the dot, away from the line */
+  margin-top: 2rem;
 }
+
+.timeline-content-final .timeline-heading {
+  font-size: clamp(2.5rem, 6vw, 3.4rem);
+  font-style: italic;
+}
+
+.timeline-content-final .timeline-year {
+  font-size: 1.3rem;
+  letter-spacing: 0.7em;
+}
+
+.timeline-content-final .timeline-text {
+  font-size: 1.75rem;
+  line-height: 2;
+  max-width: 100%;
+}
+
 
 /* ─────────────────────────────────────────
    QR / REGISTRY
@@ -541,27 +542,33 @@ body {
   letter-spacing: 0.05em;
 }
 
+/* ── Grid: three equal cards in one row ── */
 .qr-grid {
   display: flex;
-  gap: 3rem;
+  flex-wrap: nowrap;
+  gap: 1.5rem;
   justify-content: center;
-  flex-wrap: wrap;
-  max-width: 680px;
+  align-items: stretch;
+  max-width: 900px;
   margin: 0 auto;
 }
 
+/* ── Base card ── */
+/* TWEAK CARD SIZE: change max-width (currently 260px) and min-height (currently 340px) */
 .qr-card {
   background: var(--dark3);
   border: 1px solid rgba(201, 160, 122, 0.2);
   border-radius: 4px;
-  padding: 2.5rem;
+  padding: 2.5rem 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.2rem;
-  flex: 1;
-  min-width: 220px;
-  max-width: 280px;
+  text-align: center;           /* ← centers all text uniformly */
+  flex: 0 0 260px;              /* ← fixed equal width for all three cards */
+  max-width: 260px;             /* TWEAK: card width */
+  min-height: 340px;            /* TWEAK: card height */
+  justify-content: flex-start;
   transition: border-color 0.3s, transform 0.3s;
 }
 
@@ -570,15 +577,33 @@ body {
   transform: translateY(-4px);
 }
 
+/* ── Amazon <a> wrapper — forces same size as sibling cards ── */
+.qr-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex: 0 0 260px;              /* matches .qr-card flex-basis */
+  max-width: 260px;
+}
+
+.qr-card-link .qr-card {
+  flex: 1 1 auto;
+  max-width: 100%;
+  min-width: unset;
+  width: 100%;
+}
+
+/* ── QR placeholder box ── */
 .qr-placeholder {
-  width: 160px;
-  height: 160px;
+  width: 140px;                 /* TWEAK: QR image size */
+  height: 140px;
   background: var(--white);
   border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .qr-label {
@@ -603,28 +628,301 @@ body {
   line-height: 1.7;
 }
 
-/* ── Chapter 6 enlarged text ── */
-.timeline-content-final .timeline-heading {
-  font-size: clamp(2.5rem, 6vw, 3.4rem);
+/* ══════════════════════════════════════════
+   RSVP CARD — brightness & contrast tweaks
+   
+   To make the RSVP card BRIGHTER / MORE CONTRAST:
+     • .qr-card--rsvp border-color  → raise the alpha (0.55 → 0.75 → 1.0)
+     • .qr-card--rsvp background    → raise the alpha (0.08 → 0.15 → 0.25)
+     • .rsvp-icon color             → raise the alpha (0.75 → 1.0) or use var(--rosegold)
+     • .rsvp-icon border            → raise the alpha (0.35 → 0.6 → 1.0)
+     • .rsvp-icon background        → raise the alpha (0.12 → 0.2 → 0.35)
+     • .qr-card--rsvp .qr-name      → raise the alpha (1.0 = full white)
+     • .qr-card--rsvp .qr-desc      → raise the alpha (0.65 → 0.85)
+   ══════════════════════════════════════════ */
+
+.qr-card--rsvp {
+  cursor: pointer;
+  position: relative;
+  border-style: solid;
+  border-color: rgba(201, 160, 122, 0.2);         /* matches other cards by default */
+  background: var(--dark3);                        /* matches other cards by default */
+  transition: border-color 0.3s, transform 0.3s, background 0.3s;
+}
+
+.qr-card--rsvp:hover,
+.qr-card--rsvp:focus {
+  outline: none;
+  border-color: rgba(201, 160, 122, 0.5);         /* same hover as other cards */
+  background: var(--dark3);
+}
+
+/* Only highlights once clicked/expanded */
+.qr-card--rsvp[aria-expanded="true"] {
+  border-color: rgba(201, 160, 122, 0.8);         /* TWEAK: expanded border brightness */
+  background: rgba(201, 160, 122, 0.08);          /* TWEAK: expanded fill brightness */
+}
+
+.rsvp-icon {
+  font-size: 2.2rem;
+  color: rgba(201, 160, 122, 0.75);
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(201, 160, 122, 0.2);     /* matches other cards by default */
+  border-radius: 4px;
+  background: var(--dark2);                        /* matches other cards by default */
+  transition: background 0.3s, border-color 0.3s, color 0.3s;
+  flex-shrink: 0;
+}
+
+/* Icon only brightens after click */
+.qr-card--rsvp[aria-expanded="true"] .rsvp-icon {
+  border-color: rgba(201, 160, 122, 0.35);        /* TWEAK: expanded icon box border */
+  background: rgba(201, 160, 122, 0.12);          /* TWEAK: expanded icon box fill */
+  color: var(--rosegold);                         /* TWEAK: expanded icon color */
+}
+
+.rsvp-caret {
+  position: absolute;
+  bottom: 0.8rem;
+  right: 1rem;
+  font-size: 0.9rem;
+  color: rgba(201, 160, 122, 0.5);
+  transition: transform 0.35s ease, color 0.3s;
+}
+
+.qr-card--rsvp[aria-expanded="true"] .rsvp-caret {
+  transform: rotate(180deg);
+  color: var(--rosegold);
+}
+
+
+/* ═══ RSVP FORM AREA ═══ */
+.rsvp-form-area {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+  opacity: 0;
+}
+
+.rsvp-form-area.open {
+  max-height: 900px;
+  opacity: 1;
+}
+
+.rsvp-form-inner {
+  max-width: 560px;
+  margin: 3rem auto 0;
+  padding: 3rem 2.5rem;
+  background: var(--dark3);
+  border: 1px solid rgba(201, 160, 122, 0.2);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.rsvp-ornament {
+  text-align: center;
+  color: var(--rosegold-dark);
+  font-size: 1.1rem;
+  letter-spacing: 0.4em;
+  opacity: 0.6;
+  margin-bottom: 0.4rem;
+}
+
+.rsvp-form-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
   font-style: italic;
+  font-size: clamp(1.4rem, 3.5vw, 2rem);
+  color: var(--white);
+  text-align: center;
+  line-height: 1.2;
+  margin-bottom: 1.6rem;
 }
 
-.timeline-content-final .timeline-year {
-  font-size: 1.3rem;
-  letter-spacing: 0.7em;
+/* ── Fields ── */
+.rsvp-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid rgba(201, 160, 122, 0.08);
 }
 
-.timeline-content-final .timeline-text {
-  font-size: 1.75rem;
-  line-height: 2;
-  max-width: 100%;
+.rsvp-field:first-of-type {
+  padding-top: 0;
 }
 
-.timeline-content-final {
-  max-width: 600px;
+.rsvp-field:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
+.rsvp-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--rosegold);
+  font-weight: 400;
+  font-family: 'Jost', sans-serif;
+  margin-bottom: 0.7rem;
+}
 
+.rsvp-input,
+.rsvp-textarea {
+  background: var(--dark2);
+  border: 1px solid rgba(201, 160, 122, 0.2);
+  border-radius: 3px;
+  color: var(--cream);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  font-size: 0.9rem;
+  padding: 0.75rem 1rem;
+  outline: none;
+  transition: border-color 0.3s;
+  resize: vertical;
+}
+
+.rsvp-input::placeholder,
+.rsvp-textarea::placeholder {
+  color: rgba(245, 237, 224, 0.25);
+}
+
+.rsvp-input:focus,
+.rsvp-textarea:focus {
+  border-color: var(--rosegold);
+}
+
+.rsvp-textarea {
+  margin-top: 0.2rem;
+}
+
+/* ── Custom checkboxes ── */
+.rsvp-checks {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 0.2rem;
+}
+
+.rsvp-check-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-size: 0.88rem;
+  color: rgba(245, 237, 224, 0.8);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  position: relative;
+  line-height: 1.5;
+}
+
+.rsvp-checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.rsvp-checkmark {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid rgba(201, 160, 122, 0.4);
+  border-radius: 2px;
+  background: var(--dark2);
+  flex-shrink: 0;
+  transition: border-color 0.3s, background 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rsvp-checkbox:checked + .rsvp-checkmark {
+  border-color: var(--rosegold);
+  background: var(--rosegold);
+}
+
+.rsvp-checkbox:checked + .rsvp-checkmark::after {
+  content: '';
+  display: block;
+  width: 5px;
+  height: 9px;
+  border: 1.5px solid var(--dark);
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg) translateY(-1px);
+}
+
+/* ── Submit button ── */
+.rsvp-submit-btn {
+  align-self: center;
+  background: none;
+  border: 1px solid var(--rosegold);
+  color: var(--rosegold);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding: 0.85rem 2.5rem;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  margin-top: 1.8rem;
+}
+
+.rsvp-submit-btn:hover {
+  background: var(--rosegold);
+  color: var(--dark);
+}
+
+/* ── Success state ── */
+.rsvp-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.rsvp-success-icon {
+  font-size: 2rem;
+  color: var(--rosegold);
+  animation: fadeUp 0.6s forwards;
+}
+
+.rsvp-success-text {
+  font-size: 0.95rem;
+  color: rgba(245, 237, 224, 0.75);
+  line-height: 1.7;
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+}
+
+.rsvp-edit-btn {
+  background: none;
+  border: none;
+  color: var(--rosegold-dark);
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: 'Jost', sans-serif;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.3s;
+}
+
+.rsvp-edit-btn:hover {
+  color: var(--rosegold);
+}
 
 
 /* ─────────────────────────────────────────
@@ -675,33 +973,8 @@ footer p {
 
 
 /* ─────────────────────────────────────────
-   RESPONSIVE
+   MUSIC PLAYER
 ───────────────────────────────────────── */
-@media (max-width: 640px) {
-  .timeline-item,
-  .timeline-item:nth-child(even) {
-    flex-direction: column;
-    text-align: left;
-    padding-left: 2rem;
-  }
-
-  .timeline-track { left: 0.5rem; }
-  .timeline-dot   { left: 0.5rem; }
-
-  .timeline-content,
-  .timeline-spacer,
-  .timeline-item:nth-child(odd)  .timeline-content,
-  .timeline-item:nth-child(even) .timeline-content {
-    width: 100%;
-    align-items: flex-start;
-    text-align: left;
-  }
-
-  .timeline-spacer { display: none; }
-  .timeline-text   { max-width: 100%; }
-}
-
-/* ── Music Player ── */
 #music-player {
   position: fixed;
   bottom: 1.5rem;
@@ -781,11 +1054,38 @@ footer p {
   background: rgba(201, 160, 122, 0.1);
 }
 
-/* ═══════════════════════════════════════════════════════════
-   MOBILE RESPONSIVE ADDITIONS — wedding site
-   All rules scoped to max-width: 640px
-   ═══════════════════════════════════════════════════════════ */
 
+/* ─────────────────────────────────────────
+   RESPONSIVE — base 640px rules
+───────────────────────────────────────── */
+@media (max-width: 640px) {
+  .timeline-item,
+  .timeline-item:nth-child(even) {
+    flex-direction: column;
+    text-align: left;
+    padding-left: 2rem;
+  }
+
+  .timeline-track { left: 0.5rem; }
+  .timeline-dot   { left: 0.5rem; }
+
+  .timeline-content,
+  .timeline-spacer,
+  .timeline-item:nth-child(odd)  .timeline-content,
+  .timeline-item:nth-child(even) .timeline-content {
+    width: 100%;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .timeline-spacer { display: none; }
+  .timeline-text   { max-width: 100%; }
+}
+
+
+/* ─────────────────────────────────────────
+   MOBILE ADDITIONS
+───────────────────────────────────────── */
 @media (max-width: 640px) {
 
   /* ── HERO ── */
@@ -820,7 +1120,6 @@ footer p {
     bottom: 1rem;
   }
 
-
   /* ── SHARED SECTION LABELS ── */
   .section-title {
     font-size: clamp(1.7rem, 7vw, 2.4rem);
@@ -832,26 +1131,22 @@ footer p {
     letter-spacing: 0.3em;
   }
 
-
   /* ── STORY SECTION ── */
   #story {
     padding: 4rem 0 5rem;
   }
 
-
-  /* ── TIMELINE TRACK — pinned to left edge ── */
+  /* ── TIMELINE TRACK ── */
   .timeline-track {
     left: 1rem !important;
     transform: none !important;
   }
 
-
-  /* ── TIMELINE WRAPPER ── */
   .timeline {
     padding: 0 1rem 0 2.5rem;
   }
 
-  /* ── ALL TIMELINE ITEMS — single column ── */
+  /* ── ALL TIMELINE ITEMS ── */
   .timeline-item,
   .timeline-item:nth-child(odd),
   .timeline-item:nth-child(even) {
@@ -862,9 +1157,6 @@ footer p {
     margin-bottom: 3.5rem;
   }
 
-  /* ── DOT — sits ON the left track line ──
-     .timeline has padding-left: 2.5rem, track is at 1rem from section edge,
-     so track is at (1rem - 2.5rem) = -1.5rem relative to timeline container. */
   .timeline-dot {
     position: absolute !important;
     left: -1.5rem !important;
@@ -872,13 +1164,18 @@ footer p {
     transform: translateX(-50%) !important;
   }
 
-  /* ── CONTENT always first (order 1), photos always second (order 2) ── */
   .timeline-content {
     width: 100% !important;
     max-width: 100% !important;
     align-items: flex-start !important;
     text-align: left !important;
     order: 1;
+  }
+
+  .timeline-item:nth-child(odd) .timeline-content,
+  .timeline-item:nth-child(even) .timeline-content {
+    align-items: flex-start !important;
+    text-align: left !important;
   }
 
   .timeline-photo-group,
@@ -893,7 +1190,6 @@ footer p {
     order: 2;
   }
 
-  /* Remove the inline negative margin on ch2's inner div */
   .timeline-photo-group-odd > div {
     margin-left: 0 !important;
     width: 100%;
@@ -916,8 +1212,6 @@ footer p {
     letter-spacing: 0.25em;
   }
 
-
-  /* ── PHOTO SIZING ── */
   .timeline-photo-massive {
     max-width: 100%;
     width: 100%;
@@ -936,7 +1230,6 @@ footer p {
     height: 160px;
   }
 
-  /* ── VIDEO ── */
   .timeline-video,
   .timeline-item--video .timeline-video {
     height: 220px;
@@ -944,8 +1237,7 @@ footer p {
     max-width: 100%;
   }
 
-
-  /* ── CHAPTER 4 — dot fix + centered text ── */
+  /* ── CHAPTER 4 ── */
   .timeline-item--center {
     padding-left: 0;
     align-items: flex-start;
@@ -989,8 +1281,7 @@ footer p {
     height: 150px;
   }
 
-
-  /* ── CHAPTER 6 — dot fix ── */
+  /* ── CHAPTER 6 ── */
   .timeline-item--final {
     padding-left: 0;
     align-items: flex-start;
@@ -1026,29 +1317,158 @@ footer p {
     line-height: 1.8;
   }
 
-
   /* ── QR / REGISTRY ── */
   #qr {
-    padding: 4rem 1.5rem;
+    padding: 4rem 1.25rem;
   }
 
   .qr-header {
     margin-bottom: 2.5rem;
   }
 
+  /* Stack cards vertically, full width */
   .qr-grid {
     flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 1rem;
+    max-width: 100%;
+    padding: 0;
+  }
+
+  /* Each card becomes a wide horizontal rectangle */
+  .qr-card,
+  .qr-card-link .qr-card {
+    flex-direction: row;          /* QR left, content right */
     align-items: center;
-    gap: 1.5rem;
-  }
-
-  .qr-card {
+    flex: unset;
     width: 100%;
-    max-width: 300px;
-    min-width: unset;
-    padding: 2rem;
+    max-width: 100%;
+    min-width: 0;
+    min-height: unset;
+    padding: 1.1rem 1.25rem;
+    gap: 1.25rem;
+    text-align: left;
   }
 
+  /* Link wrapper stretches full width */
+  .qr-card-link {
+    flex: unset;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  /* Left column: label above QR image */
+  .qr-card-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  /* QR image / RSVP icon — compact square on the left */
+  .qr-placeholder,
+  .rsvp-icon {
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+  }
+
+  /* The label sits above the QR box */
+  .qr-label {
+    font-size: 0.58rem;
+    letter-spacing: 0.25em;
+    order: -1;                    /* floats above the QR image */
+  }
+
+  /* Right column: name + desc fills remaining space */
+  .qr-card-right {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .qr-name {
+    font-size: 1.15rem;
+    text-align: left;
+  }
+
+  .qr-desc {
+    font-size: 0.78rem;
+    text-align: left;
+    line-height: 1.6;
+  }
+
+  /* Reorder children inside .qr-card on mobile:
+     The label + placeholder stay left via flex-shrink:0,
+     the name/desc fill the right.
+     We use CSS order to push .qr-label above .qr-placeholder
+     without changing HTML. */
+  .qr-card > .qr-label       { order: 1; flex-shrink: 0; align-self: flex-start; }
+  .qr-card > .qr-placeholder { order: 2; flex-shrink: 0; }
+  .qr-card > .rsvp-icon      { order: 2; flex-shrink: 0; }
+  .qr-card > .qr-name        { order: 3; }
+  .qr-card > .qr-desc        { order: 4; flex: 1; }
+
+  /* Group label + QR into a left block, name + desc into a right block */
+  .qr-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 1.25rem;
+    row-gap: 0.35rem;
+    align-items: center;
+  }
+
+  /* Col 1 row 1: label */
+  .qr-card > .qr-label {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: end;
+  }
+
+  /* Col 1 row 2: QR image or icon */
+  .qr-card > .qr-placeholder,
+  .qr-card > .rsvp-icon {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  /* Col 2 row 1: card name */
+  .qr-card > .qr-name {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: end;
+  }
+
+  /* Col 2 row 2: description */
+  .qr-card > .qr-desc {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: start;
+  }
+
+  /* RSVP caret stays bottom-right */
+  .rsvp-caret {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: end;
+    justify-self: end;
+    position: static;
+  }
+
+  /* ── RSVP form ── */
+  .rsvp-form-inner {
+    padding: 2rem 1.5rem;
+  }
+
+  .rsvp-form-area.open {
+    max-height: 1100px;
+  }
 
   /* ── MUSIC PLAYER ── */
   #music-player {
@@ -1059,7 +1479,6 @@ footer p {
   #music-controls {
     min-width: 140px;
   }
-
 
   /* ── FOOTER ── */
   footer {

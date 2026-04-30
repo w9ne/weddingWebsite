@@ -133,6 +133,119 @@ function handleVideoError() {
   });
 })();
 
+(function initRSVP() {
+  const trigger     = document.getElementById('rsvp-trigger');
+  const formArea    = document.getElementById('rsvp-form-area');
+  const fields      = document.getElementById('rsvp-fields');
+  const successEl   = document.getElementById('rsvp-success');
+  const submitBtn   = document.getElementById('rsvp-submit-btn');
+  const editBtn     = document.getElementById('rsvp-edit-btn');
+  const nameInput   = document.getElementById('rsvp-name');
+  const sealingBox  = document.getElementById('rsvp-sealing');
+  const partyBox    = document.getElementById('rsvp-party');
+  const messageBox  = document.getElementById('rsvp-message');
+ 
+  if (!trigger || !formArea) return;
+ 
+  // ── Toggle open/close ──────────────────────────────────
+  function openForm() {
+    formArea.classList.add('open');
+    formArea.setAttribute('aria-hidden', 'false');
+    trigger.setAttribute('aria-expanded', 'true');
+    // Smooth scroll to form after transition starts
+    setTimeout(() => {
+      formArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 100);
+  }
+ 
+  function closeForm() {
+    formArea.classList.remove('open');
+    formArea.setAttribute('aria-hidden', 'true');
+    trigger.setAttribute('aria-expanded', 'false');
+  }
+ 
+  trigger.addEventListener('click', () => {
+    const isOpen = formArea.classList.contains('open');
+    isOpen ? closeForm() : openForm();
+  });
+ 
+  // Allow keyboard activation (Enter / Space)
+  trigger.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      trigger.click();
+    }
+  });
+ 
+  // ── Persist to localStorage ────────────────────────────
+  const STORAGE_KEY = 'jared_sabrina_rsvp';
+ 
+  function saveRSVP() {
+    const data = {
+      name:    nameInput.value.trim(),
+      sealing: sealingBox.checked,
+      party:   partyBox.checked,
+      message: messageBox.value.trim(),
+      savedAt: new Date().toISOString(),
+    };
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (_) {}
+    return data;
+  }
+ 
+  function loadRSVP() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (_) { return null; }
+  }
+ 
+  function populateFields(data) {
+    if (!data) return;
+    nameInput.value      = data.name    || '';
+    sealingBox.checked   = !!data.sealing;
+    partyBox.checked     = !!data.party;
+    messageBox.value     = data.message || '';
+  }
+ 
+  function showSuccess() {
+    fields.style.display   = 'none';
+    successEl.style.display = 'flex';
+  }
+ 
+  function showFields() {
+    fields.style.display   = '';
+    successEl.style.display = 'none';
+  }
+ 
+  // ── Submit ─────────────────────────────────────────────
+  submitBtn.addEventListener('click', () => {
+    if (!nameInput.value.trim()) {
+      nameInput.focus();
+      nameInput.style.borderColor = 'rgba(201,100,100,0.7)';
+      setTimeout(() => nameInput.style.borderColor = '', 1500);
+      return;
+    }
+    saveRSVP();
+    showSuccess();
+  });
+ 
+  // ── Edit ──────────────────────────────────────────────
+  editBtn.addEventListener('click', () => {
+    showFields();
+    nameInput.focus();
+  });
+ 
+  // ── Restore saved data on page load ───────────────────
+  const saved = loadRSVP();
+  if (saved) {
+    populateFields(saved);
+    // Re-open form and show success state automatically
+    openForm();
+    showSuccess();
+  }
+})();
+
+
 // ── EVENT LISTENERS ───────────────────────
 window.addEventListener('scroll', handleScroll, { passive: true });
 heroVideo.addEventListener('error', handleVideoError);
