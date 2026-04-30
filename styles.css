@@ -56,6 +56,7 @@ body {
   filter: saturate(0.6) brightness(0.7);
 }
 
+
 /* Fallback gradient shown when no video is loaded */
 #hero-fallback {
   position: absolute;
@@ -782,9 +783,7 @@ footer p {
 
 /* ═══════════════════════════════════════════════════════════
    MOBILE RESPONSIVE ADDITIONS — wedding site
-   Paste this at the very bottom of styles.css
-   All rules are scoped to max-width: 640px so they ONLY
-   activate on mobile and never touch the desktop layout.
+   All rules scoped to max-width: 640px
    ═══════════════════════════════════════════════════════════ */
 
 @media (max-width: 640px) {
@@ -793,6 +792,10 @@ footer p {
   #hero {
     height: 90vh;
     min-height: 480px;
+  }
+
+  #hero-video {
+    object-position: 50% 50%;
   }
 
   .hero-eyebrow {
@@ -835,45 +838,66 @@ footer p {
   }
 
 
-  /* ── TIMELINE TRACK ── */
-  /* Override the existing 640px rule that moves track to left: 0.5rem */
+  /* ── TIMELINE TRACK — pinned to left edge ── */
   .timeline-track {
     left: 1rem !important;
-  }
-
-  .timeline-dot {
-    left: 1rem !important;
-    transform: translateX(-50%);
+    transform: none !important;
   }
 
 
-  /* ── TIMELINE ITEMS (all) ── */
+  /* ── TIMELINE WRAPPER ── */
   .timeline {
-    padding: 0 1rem 0 1.5rem;
+    padding: 0 1rem 0 2.5rem;
   }
 
+  /* ── ALL TIMELINE ITEMS — single column ── */
   .timeline-item,
   .timeline-item:nth-child(odd),
   .timeline-item:nth-child(even) {
     flex-direction: column !important;
     text-align: left !important;
-    padding-left: 2rem;
+    padding-left: 0;
     gap: 1rem;
     margin-bottom: 3.5rem;
   }
 
-  .timeline-item:nth-child(odd) .timeline-content,
-  .timeline-item:nth-child(even) .timeline-content {
-    align-items: flex-start !important;
-    text-align: left !important;
+  /* ── DOT — sits ON the left track line ──
+     .timeline has padding-left: 2.5rem, track is at 1rem from section edge,
+     so track is at (1rem - 2.5rem) = -1.5rem relative to timeline container. */
+  .timeline-dot {
+    position: absolute !important;
+    left: -1.5rem !important;
+    top: 8px !important;
+    transform: translateX(-50%) !important;
   }
 
-  /* ── TIMELINE CONTENT ── */
-  .timeline-content,
-  .timeline-content-center,
-  .timeline-content-final {
+  /* ── CONTENT always first (order 1), photos always second (order 2) ── */
+  .timeline-content {
     width: 100% !important;
     max-width: 100% !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+    order: 1;
+  }
+
+  .timeline-photo-group,
+  .timeline-photo-group-odd,
+  .timeline-video-slot {
+    width: 100% !important;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    order: 2;
+  }
+
+  /* Remove the inline negative margin on ch2's inner div */
+  .timeline-photo-group-odd > div {
+    margin-left: 0 !important;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
 
   .timeline-heading {
@@ -889,25 +913,6 @@ footer p {
   .timeline-year {
     font-size: 0.6rem;
     letter-spacing: 0.25em;
-  }
-
-
-  /* ── PHOTO GROUPS ── */
-  .timeline-photo-group,
-  .timeline-photo-group-odd {
-    width: 100% !important;
-    margin-left: 0 !important;
-    padding-left: 0 !important;
-    justify-content: flex-start;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-
-  /* Remove the negative left margin on ch2's inner div */
-  .timeline-photo-group-odd > div {
-    margin-left: 0 !important;
-    flex-wrap: wrap;
-    gap: 0.5rem;
   }
 
 
@@ -930,13 +935,7 @@ footer p {
     height: 160px;
   }
 
-
-  /* ── VIDEO SLOT ── */
-  .timeline-video-slot {
-    width: 100%;
-    margin: 0;
-  }
-
+  /* ── VIDEO ── */
   .timeline-video,
   .timeline-item--video .timeline-video {
     height: 220px;
@@ -945,24 +944,33 @@ footer p {
   }
 
 
-  /* ── CHAPTER 4 (center layout) ── */
+  /* ── CHAPTER 4 — dot fix + centered text ── */
   .timeline-item--center {
-    padding-left: 2rem;
+    padding-left: 0;
     align-items: flex-start;
     text-align: left !important;
   }
 
   .timeline-item--center .timeline-dot {
-    position: absolute;
-    left: 1rem !important;
-    top: 0;
-    transform: translateX(-50%);
+    position: absolute !important;
+    left: -1.5rem !important;
+    top: 0 !important;
+    transform: translateX(-50%) !important;
   }
 
   .timeline-content-center {
-    align-items: flex-start;
-    text-align: left;
+    width: 100% !important;
+    max-width: 100% !important;
+    align-items: center !important;
+    text-align: center !important;
     margin-top: 1.5rem;
+  }
+
+  .timeline-content-center .timeline-text,
+  .timeline-content-center .timeline-year,
+  .timeline-content-center .timeline-heading {
+    text-align: center;
+    max-width: 100%;
   }
 
   .timeline-photo-group-center {
@@ -981,25 +989,26 @@ footer p {
   }
 
 
-  /* ── CHAPTER 6 (final) ── */
+  /* ── CHAPTER 6 — dot fix ── */
   .timeline-item--final {
-    padding-left: 2rem;
+    padding-left: 0;
     align-items: flex-start;
     text-align: left !important;
   }
 
   .timeline-item--final .timeline-dot {
-    position: absolute;
-    left: 1rem !important;
-    top: 0;
-    transform: translateX(-50%);
+    position: absolute !important;
+    left: -1.5rem !important;
+    top: 0 !important;
+    transform: translateX(-50%) !important;
   }
 
   .timeline-content-final {
+    width: 100% !important;
+    max-width: 100% !important;
     align-items: flex-start;
     text-align: left;
     margin-top: 1.5rem;
-    max-width: 100%;
   }
 
   .timeline-content-final .timeline-heading {

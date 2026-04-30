@@ -37,7 +37,7 @@ function handleScroll() {
 
   const ch4Pct  = ch4Dot  ? dotToPercent(ch4Dot)  : 50;
   const ch5Pct  = ch5Dot  ? dotToPercent(ch5Dot)  : 60;
-  const maxFill = lastDot ? dotToPercent(lastDot)  : 100;
+  const maxFill = lastDot ? dotToPercent(lastDot) + 3 : 100;
   const rawFill = Math.min(maxFill, (scrolledPast / (storyHeight - viewportHeight)) * 100);
 
   // Segment 1: top to Chapter 4 dot
