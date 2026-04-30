@@ -88,7 +88,7 @@ body {
 
 .hero-eyebrow {
   font-family: 'Jost', sans-serif;
-  font-weight: 200;
+  font-weight: bold;
   font-size: clamp(0.65rem, 1.5vw, 0.8rem);
   letter-spacing: 0.35em;
   text-transform: uppercase;
@@ -800,6 +800,7 @@ footer p {
 
   .hero-eyebrow {
     font-size: 0.6rem;
+    font-weight: bold;
     letter-spacing: 0.25em;
     margin-bottom: 0.9rem;
   }
