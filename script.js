@@ -16,7 +16,9 @@ function handleScroll() {
   timelineItems.forEach(item => {
     const rect     = item.getBoundingClientRect();
     const midpoint = rect.top + rect.height / 2;
-    const inView   = midpoint > viewportHeight * 0.1 && midpoint < viewportHeight * 1.2;
+    // TWEAK: lower the first value (e.g. -0.2) to trigger even earlier before item enters view
+    //        raise the second value (e.g. 1.5) to keep items visible longer as you scroll past
+    const inView   = midpoint > viewportHeight * -0.1 && midpoint < viewportHeight * 1.3;
     item.classList.toggle('visible', inView);
   });
 
@@ -59,7 +61,7 @@ function handleScroll() {
 
 // ── VIDEO FALLBACK ────────────────────────
 function handleVideoError() {
-  heroVideo.style.display = 'none';
+  if (heroVideo) heroVideo.style.display = 'none';
 }
 
 // ── MUSIC PLAYER ─────────────────────────
@@ -95,14 +97,19 @@ function handleVideoError() {
     audio.play().then(() => {
       started   = true;
       isPlaying = true;
-      toggleBtn.textContent  = '⏸ Pause';
+      toggleBtn.textContent   = '⏸ Pause';
       musicIcon.style.opacity = '1';
       fadeIn(parseFloat(volumeSlider.value), 2000);
     }).catch(() => {});
   }
 
-  // Fire on ANY of these — keeping listeners active (no { once: true })
-  // so Chrome has a fresh gesture context each time
+  // Try immediately on page load (works if browser allows autoplay)
+  tryPlay();
+
+  // Also try on first scroll — browsers often allow audio after any interaction
+  window.addEventListener('scroll', tryPlay, { once: true, passive: true });
+
+  // Fallback: any user gesture
   ['click', 'keydown', 'touchstart', 'pointerdown'].forEach(evt => {
     document.addEventListener(evt, tryPlay);
   });
@@ -127,97 +134,128 @@ function handleVideoError() {
     audio.volume = parseFloat(volumeSlider.value);
   });
 
-  musicIcon.addEventListener('click', () => {
+  // Toggle controls panel on mobile (click instead of hover)
+  musicIcon.addEventListener('click', (e) => {
+    e.stopPropagation();
     const isVisible = musicControls.style.display === 'flex';
     musicControls.style.display = isVisible ? 'none' : 'flex';
   });
 })();
 
+// ── RSVP ─────────────────────────────────
 (function initRSVP() {
-  const trigger     = document.getElementById('rsvp-trigger');
-  const formArea    = document.getElementById('rsvp-form-area');
-  const fields      = document.getElementById('rsvp-fields');
-  const successEl   = document.getElementById('rsvp-success');
-  const submitBtn   = document.getElementById('rsvp-submit-btn');
-  const editBtn     = document.getElementById('rsvp-edit-btn');
-  const nameInput   = document.getElementById('rsvp-name');
-  const sealingBox  = document.getElementById('rsvp-sealing');
-  const partyBox    = document.getElementById('rsvp-party');
-  const messageBox  = document.getElementById('rsvp-message');
- 
+  const trigger      = document.getElementById('rsvp-trigger');
+  const formArea     = document.getElementById('rsvp-form-area');
+  const fields       = document.getElementById('rsvp-fields');
+  const successEl    = document.getElementById('rsvp-success');
+  const submitBtn    = document.getElementById('rsvp-submit-btn');
+  const editBtn      = document.getElementById('rsvp-edit-btn');
+  const successMsg   = document.getElementById('rsvp-success-text');
+  const nameInput    = document.getElementById('rsvp-name');
+  const emailInput   = document.getElementById('rsvp-email');
+  const sealingBox   = document.getElementById('rsvp-sealing');
+  const partyBox     = document.getElementById('rsvp-party');
+  const messageBox   = document.getElementById('rsvp-message-only');
+  const plusOneBox   = document.getElementById('rsvp-plusone');
+  const msgTextarea  = document.getElementById('rsvp-message');
+
   if (!trigger || !formArea) return;
- 
-  // ── Toggle open/close ──────────────────────────────────
+
+  // ── Toggle open/close ──────────────────
   function openForm() {
     formArea.classList.add('open');
     formArea.setAttribute('aria-hidden', 'false');
     trigger.setAttribute('aria-expanded', 'true');
-    // Smooth scroll to form after transition starts
     setTimeout(() => {
       formArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }, 100);
   }
- 
+
   function closeForm() {
     formArea.classList.remove('open');
     formArea.setAttribute('aria-hidden', 'true');
     trigger.setAttribute('aria-expanded', 'false');
   }
- 
+
   trigger.addEventListener('click', () => {
     const isOpen = formArea.classList.contains('open');
     isOpen ? closeForm() : openForm();
   });
- 
-  // Allow keyboard activation (Enter / Space)
+
   trigger.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
       trigger.click();
     }
   });
- 
-  // ── Persist to localStorage ────────────────────────────
+
+  // ── Success message logic ───────────────
+  function getSuccessMessage() {
+    const hasSealing = sealingBox.checked;
+    const hasParty   = partyBox.checked;
+    const hasMessage = messageBox.checked;
+
+    if (hasParty) {
+      return "Your RSVP has been saved. We can't wait to celebrate with you!";
+    }
+    if (hasSealing && !hasParty) {
+      return "Your RSVP has been saved! The timing of the sealing will be sent to you soon!";
+    }
+    if (hasMessage && !hasSealing && !hasParty) {
+      return "We are grateful for your thoughts and feelings. We are happy to include you in our celebration, even if you aren't able to be present. Much love!";
+    }
+    // Default (nothing checked or just +1)
+    return "Your RSVP has been saved. We can't wait to celebrate with you!";
+  }
+
+  // ── Persist to localStorage ─────────────
   const STORAGE_KEY = 'jared_sabrina_rsvp';
- 
+
   function saveRSVP() {
     const data = {
-      name:    nameInput.value.trim(),
-      sealing: sealingBox.checked,
-      party:   partyBox.checked,
-      message: messageBox.value.trim(),
-      savedAt: new Date().toISOString(),
+      name:       nameInput.value.trim(),
+      email:      emailInput ? emailInput.value.trim() : '',
+      sealing:    sealingBox.checked,
+      party:      partyBox.checked,
+      messageOnly: messageBox.checked,
+      plusOne:    plusOneBox ? plusOneBox.checked : false,
+      message:    msgTextarea.value.trim(),
+      savedAt:    new Date().toISOString(),
     };
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (_) {}
     return data;
   }
- 
+
   function loadRSVP() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       return raw ? JSON.parse(raw) : null;
     } catch (_) { return null; }
   }
- 
+
   function populateFields(data) {
     if (!data) return;
-    nameInput.value      = data.name    || '';
-    sealingBox.checked   = !!data.sealing;
-    partyBox.checked     = !!data.party;
-    messageBox.value     = data.message || '';
+    nameInput.value         = data.name        || '';
+    if (emailInput) emailInput.value = data.email || '';
+    sealingBox.checked      = !!data.sealing;
+    partyBox.checked        = !!data.party;
+    messageBox.checked      = !!data.messageOnly;
+    if (plusOneBox) plusOneBox.checked = !!data.plusOne;
+    msgTextarea.value       = data.message     || '';
   }
- 
-  function showSuccess() {
-    fields.style.display   = 'none';
+
+  function showSuccess(msg) {
+    if (successMsg) successMsg.textContent = msg;
+    fields.style.display    = 'none';
     successEl.style.display = 'flex';
   }
- 
+
   function showFields() {
-    fields.style.display   = '';
+    fields.style.display    = '';
     successEl.style.display = 'none';
   }
- 
-  // ── Submit ─────────────────────────────────────────────
+
+  // ── Submit ──────────────────────────────
   submitBtn.addEventListener('click', () => {
     if (!nameInput.value.trim()) {
       nameInput.focus();
@@ -226,29 +264,27 @@ function handleVideoError() {
       return;
     }
     saveRSVP();
-    showSuccess();
+    showSuccess(getSuccessMessage());
   });
- 
-  // ── Edit ──────────────────────────────────────────────
+
+  // ── Edit ────────────────────────────────
   editBtn.addEventListener('click', () => {
     showFields();
     nameInput.focus();
   });
- 
-  // ── Restore saved data on page load ───────────────────
+
+  // ── Restore saved data on load ──────────
   const saved = loadRSVP();
   if (saved) {
     populateFields(saved);
-    // Re-open form and show success state automatically
     openForm();
-    showSuccess();
+    showSuccess(getSuccessMessage());
   }
 })();
 
-
 // ── EVENT LISTENERS ───────────────────────
 window.addEventListener('scroll', handleScroll, { passive: true });
-heroVideo.addEventListener('error', handleVideoError);
+if (heroVideo) heroVideo.addEventListener('error', handleVideoError);
 
 // ── INIT ──────────────────────────────────
 handleScroll();

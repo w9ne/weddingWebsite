@@ -239,7 +239,8 @@ body {
   margin-bottom: 5rem;
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  /* TWEAK: lower duration (e.g. 0.2s) = snappier pop-in, higher = slower fade */
+  transition: opacity 0.35s ease, transform 0.35s ease;
 }
 
 .timeline-item.visible {
@@ -513,7 +514,7 @@ body {
    QR / REGISTRY
 ───────────────────────────────────────── */
 #qr {
-  padding: 7rem 2rem;
+  padding: 7rem 2rem 10rem;   /* TWEAK: increase last value if footer still overlaps */
   background: var(--dark2);
   position: relative;
   overflow: hidden;
@@ -709,7 +710,7 @@ body {
 }
 
 .rsvp-form-area.open {
-  max-height: 900px;
+  max-height: 1400px;   /* TWEAK: raise if form content ever gets clipped */
   opacity: 1;
 }
 
@@ -1058,7 +1059,7 @@ footer p {
 /* ─────────────────────────────────────────
    RESPONSIVE — base 640px rules
 ───────────────────────────────────────── */
-@media (max-width: 640px) {
+@media (max-width: 750px) {
   .timeline-item,
   .timeline-item:nth-child(even) {
     flex-direction: column;
