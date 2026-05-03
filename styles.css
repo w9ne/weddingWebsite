@@ -565,8 +565,8 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 1.2rem;
-  text-align: center;           /* ← centers all text uniformly */
-  flex: 0 0 260px;              /* ← fixed equal width for all three cards */
+  text-align: center;
+  flex: 0 0 260px;
   max-width: 260px;             /* TWEAK: card width */
   min-height: 340px;            /* TWEAK: card height */
   justify-content: flex-start;
@@ -578,12 +578,12 @@ body {
   transform: translateY(-4px);
 }
 
-/* ── Amazon <a> wrapper — forces same size as sibling cards ── */
+/* ── Link wrapper — forces same size as sibling cards ── */
 .qr-card-link {
   text-decoration: none;
   color: inherit;
   display: flex;
-  flex: 0 0 260px;              /* matches .qr-card flex-basis */
+  flex: 0 0 260px;
   max-width: 260px;
 }
 
@@ -630,16 +630,8 @@ body {
 }
 
 /* ══════════════════════════════════════════
-   RSVP CARD — brightness & contrast tweaks
-   
-   To make the RSVP card BRIGHTER / MORE CONTRAST:
-     • .qr-card--rsvp border-color  → raise the alpha (0.55 → 0.75 → 1.0)
-     • .qr-card--rsvp background    → raise the alpha (0.08 → 0.15 → 0.25)
-     • .rsvp-icon color             → raise the alpha (0.75 → 1.0) or use var(--rosegold)
-     • .rsvp-icon border            → raise the alpha (0.35 → 0.6 → 1.0)
-     • .rsvp-icon background        → raise the alpha (0.12 → 0.2 → 0.35)
-     • .qr-card--rsvp .qr-name      → raise the alpha (1.0 = full white)
-     • .qr-card--rsvp .qr-desc      → raise the alpha (0.65 → 0.85)
+   RSVP CARD
+   TWEAK: raise alpha values to brighten on default state
    ══════════════════════════════════════════ */
 
 .qr-card--rsvp {
@@ -647,14 +639,14 @@ body {
   position: relative;
   border-style: solid;
   border-color: rgba(201, 160, 122, 0.2);         /* matches other cards by default */
-  background: var(--dark3);                        /* matches other cards by default */
+  background: var(--dark3);
   transition: border-color 0.3s, transform 0.3s, background 0.3s;
 }
 
 .qr-card--rsvp:hover,
 .qr-card--rsvp:focus {
   outline: none;
-  border-color: rgba(201, 160, 122, 0.5);         /* same hover as other cards */
+  border-color: rgba(201, 160, 122, 0.5);
   background: var(--dark3);
 }
 
@@ -672,18 +664,17 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(201, 160, 122, 0.2);     /* matches other cards by default */
+  border: 1px solid rgba(201, 160, 122, 0.2);
   border-radius: 4px;
-  background: var(--dark2);                        /* matches other cards by default */
+  background: var(--dark2);
   transition: background 0.3s, border-color 0.3s, color 0.3s;
   flex-shrink: 0;
 }
 
-/* Icon only brightens after click */
 .qr-card--rsvp[aria-expanded="true"] .rsvp-icon {
   border-color: rgba(201, 160, 122, 0.35);        /* TWEAK: expanded icon box border */
   background: rgba(201, 160, 122, 0.12);          /* TWEAK: expanded icon box fill */
-  color: var(--rosegold);                         /* TWEAK: expanded icon color */
+  color: var(--rosegold);
 }
 
 .rsvp-caret {
@@ -874,13 +865,18 @@ body {
   padding: 0.85rem 2.5rem;
   border-radius: 3px;
   cursor: pointer;
-  transition: background 0.3s, color 0.3s;
+  transition: background 0.3s, color 0.3s, opacity 0.3s;
   margin-top: 1.8rem;
 }
 
 .rsvp-submit-btn:hover {
   background: var(--rosegold);
   color: var(--dark);
+}
+
+.rsvp-submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* ── Success state ── */
@@ -1057,7 +1053,7 @@ footer p {
 
 
 /* ─────────────────────────────────────────
-   RESPONSIVE — base 640px rules
+   RESPONSIVE — base 750px rules
 ───────────────────────────────────────── */
 @media (max-width: 750px) {
   .timeline-item,
@@ -1320,7 +1316,7 @@ footer p {
 
   /* ── QR / REGISTRY ── */
   #qr {
-    padding: 4rem 1.25rem;
+    padding: 4rem 1.25rem 6rem;
   }
 
   .qr-header {
@@ -1340,7 +1336,7 @@ footer p {
   /* Each card becomes a wide horizontal rectangle */
   .qr-card,
   .qr-card-link .qr-card {
-    flex-direction: row;          /* QR left, content right */
+    flex-direction: row;
     align-items: center;
     flex: unset;
     width: 100%;
@@ -1360,15 +1356,6 @@ footer p {
     min-width: 0;
   }
 
-  /* Left column: label above QR image */
-  .qr-card-left {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-    flex-shrink: 0;
-  }
-
   /* QR image / RSVP icon — compact square on the left */
   .qr-placeholder,
   .rsvp-icon {
@@ -1381,16 +1368,7 @@ footer p {
   .qr-label {
     font-size: 0.58rem;
     letter-spacing: 0.25em;
-    order: -1;                    /* floats above the QR image */
-  }
-
-  /* Right column: name + desc fills remaining space */
-  .qr-card-right {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    flex: 1 1 0;
-    min-width: 0;
+    order: -1;
   }
 
   .qr-name {
@@ -1404,18 +1382,7 @@ footer p {
     line-height: 1.6;
   }
 
-  /* Reorder children inside .qr-card on mobile:
-     The label + placeholder stay left via flex-shrink:0,
-     the name/desc fill the right.
-     We use CSS order to push .qr-label above .qr-placeholder
-     without changing HTML. */
-  .qr-card > .qr-label       { order: 1; flex-shrink: 0; align-self: flex-start; }
-  .qr-card > .qr-placeholder { order: 2; flex-shrink: 0; }
-  .qr-card > .rsvp-icon      { order: 2; flex-shrink: 0; }
-  .qr-card > .qr-name        { order: 3; }
-  .qr-card > .qr-desc        { order: 4; flex: 1; }
-
-  /* Group label + QR into a left block, name + desc into a right block */
+  /* Grid layout for each card on mobile */
   .qr-card {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -1453,7 +1420,7 @@ footer p {
     align-self: start;
   }
 
-  /* RSVP caret stays bottom-right */
+  /* RSVP caret */
   .rsvp-caret {
     grid-column: 2;
     grid-row: 2;
@@ -1468,7 +1435,7 @@ footer p {
   }
 
   .rsvp-form-area.open {
-    max-height: 1100px;
+    max-height: 1400px;
   }
 
   /* ── MUSIC PLAYER ── */

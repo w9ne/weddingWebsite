@@ -16,15 +16,15 @@ function handleScroll() {
   timelineItems.forEach(item => {
     const rect     = item.getBoundingClientRect();
     const midpoint = rect.top + rect.height / 2;
-    // TWEAK: lower the first value (e.g. -0.2) to trigger even earlier before item enters view
-    //        raise the second value (e.g. 1.5) to keep items visible longer as you scroll past
-    const inView   = midpoint > viewportHeight * -0.1 && midpoint < viewportHeight * 1.3;
+    // TWEAK: lower the first value (e.g. -0.2) to trigger even earlier
+    //        raise the second value (e.g. 1.5) to keep items visible longer
+    const inView = midpoint > viewportHeight * -0.1 && midpoint < viewportHeight * 1.3;
     item.classList.toggle('visible', inView);
   });
 
   // --- Timeline line fill ---
-  const storyTop    = storySection.getBoundingClientRect().top + window.scrollY;
-  const storyHeight = storySection.offsetHeight;
+  const storyTop     = storySection.getBoundingClientRect().top + window.scrollY;
+  const storyHeight  = storySection.offsetHeight;
   const scrolledPast = Math.max(0, -storySection.getBoundingClientRect().top);
 
   const ch4Dot  = document.querySelector('.timeline-item--center .timeline-dot');
@@ -103,10 +103,10 @@ function handleVideoError() {
     }).catch(() => {});
   }
 
-  // Try immediately on page load (works if browser allows autoplay)
+  // Try immediately on page load
   tryPlay();
 
-  // Also try on first scroll — browsers often allow audio after any interaction
+  // Try on first scroll
   window.addEventListener('scroll', tryPlay, { once: true, passive: true });
 
   // Fallback: any user gesture
@@ -144,24 +144,20 @@ function handleVideoError() {
 
 // ── RSVP ─────────────────────────────────
 (function initRSVP() {
-  const trigger      = document.getElementById('rsvp-trigger');
-  const formArea     = document.getElementById('rsvp-form-area');
-  const fields       = document.getElementById('rsvp-fields');
-  const successEl    = document.getElementById('rsvp-success');
-  const submitBtn    = document.getElementById('rsvp-submit-btn');
-  const editBtn      = document.getElementById('rsvp-edit-btn');
-  const successMsg   = document.getElementById('rsvp-success-text');
-  const nameInput    = document.getElementById('rsvp-name');
-  const emailInput   = document.getElementById('rsvp-email');
-  const sealingBox   = document.getElementById('rsvp-sealing');
-  const partyBox     = document.getElementById('rsvp-party');
-  const messageBox   = document.getElementById('rsvp-message-only');
-  const plusOneBox   = document.getElementById('rsvp-plusone');
-  const msgTextarea  = document.getElementById('rsvp-message');
+  const trigger    = document.getElementById('rsvp-trigger');
+  const formArea   = document.getElementById('rsvp-form-area');
+  const rsvpForm   = document.getElementById('rsvp-fields');
+  const successEl  = document.getElementById('rsvp-success');
+  const successMsg = document.getElementById('rsvp-success-text');
+  const editBtn    = document.getElementById('rsvp-edit-btn');
+  const nameInput  = document.getElementById('rsvp-name');
+  const sealingBox = document.getElementById('rsvp-sealing');
+  const partyBox   = document.getElementById('rsvp-party');
+  const messageBox = document.getElementById('rsvp-message-only');
 
-  if (!trigger || !formArea) return;
+  if (!trigger || !formArea || !rsvpForm) return;
 
-  // ── Toggle open/close ──────────────────
+  // ── Toggle open / close ────────────────
   function openForm() {
     formArea.classList.add('open');
     formArea.setAttribute('aria-hidden', 'false');
@@ -178,8 +174,7 @@ function handleVideoError() {
   }
 
   trigger.addEventListener('click', () => {
-    const isOpen = formArea.classList.contains('open');
-    isOpen ? closeForm() : openForm();
+    formArea.classList.contains('open') ? closeForm() : openForm();
   });
 
   trigger.addEventListener('keydown', (e) => {
@@ -189,7 +184,7 @@ function handleVideoError() {
     }
   });
 
-  // ── Success message logic ───────────────
+  // ── Success message based on checkboxes ─
   function getSuccessMessage() {
     const hasSealing = sealingBox.checked;
     const hasParty   = partyBox.checked;
@@ -204,82 +199,62 @@ function handleVideoError() {
     if (hasMessage && !hasSealing && !hasParty) {
       return "We are grateful for your thoughts and feelings. We are happy to include you in our celebration, even if you aren't able to be present. Much love!";
     }
-    // Default (nothing checked or just +1)
     return "Your RSVP has been saved. We can't wait to celebrate with you!";
   }
 
-  // ── Persist to localStorage ─────────────
-  const STORAGE_KEY = 'jared_sabrina_rsvp';
+  // ── Submit to Formspree ────────────────
+  rsvpForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-  function saveRSVP() {
-    const data = {
-      name:       nameInput.value.trim(),
-      email:      emailInput ? emailInput.value.trim() : '',
-      sealing:    sealingBox.checked,
-      party:      partyBox.checked,
-      messageOnly: messageBox.checked,
-      plusOne:    plusOneBox ? plusOneBox.checked : false,
-      message:    msgTextarea.value.trim(),
-      savedAt:    new Date().toISOString(),
-    };
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (_) {}
-    return data;
-  }
-
-  function loadRSVP() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? JSON.parse(raw) : null;
-    } catch (_) { return null; }
-  }
-
-  function populateFields(data) {
-    if (!data) return;
-    nameInput.value         = data.name        || '';
-    if (emailInput) emailInput.value = data.email || '';
-    sealingBox.checked      = !!data.sealing;
-    partyBox.checked        = !!data.party;
-    messageBox.checked      = !!data.messageOnly;
-    if (plusOneBox) plusOneBox.checked = !!data.plusOne;
-    msgTextarea.value       = data.message     || '';
-  }
-
-  function showSuccess(msg) {
-    if (successMsg) successMsg.textContent = msg;
-    fields.style.display    = 'none';
-    successEl.style.display = 'flex';
-  }
-
-  function showFields() {
-    fields.style.display    = '';
-    successEl.style.display = 'none';
-  }
-
-  // ── Submit ──────────────────────────────
-  submitBtn.addEventListener('click', () => {
+    // Validate name
     if (!nameInput.value.trim()) {
       nameInput.focus();
       nameInput.style.borderColor = 'rgba(201,100,100,0.7)';
       setTimeout(() => nameInput.style.borderColor = '', 1500);
       return;
     }
-    saveRSVP();
-    showSuccess(getSuccessMessage());
+
+    // Show a brief sending state
+    const submitBtn = document.getElementById('rsvp-submit-btn');
+    submitBtn.textContent = 'Sending…';
+    submitBtn.disabled = true;
+
+    try {
+      const res = await fetch(rsvpForm.action, {
+        method: 'POST',
+        body: new FormData(rsvpForm),
+        mode: 'no-cors'
+      });
+
+      if (res.ok) {
+        // Show custom success message
+        if (successMsg) successMsg.textContent = getSuccessMessage();
+        rsvpForm.style.display    = 'none';
+        successEl.style.display   = 'flex';
+      } else {
+        submitBtn.textContent = 'Save my RSVP';
+        submitBtn.disabled = false;
+        alert('Something went wrong. Please try again.');
+      }
+    } catch (err) {
+      submitBtn.textContent = 'Save my RSVP';
+      submitBtn.disabled = false;
+      alert('Could not submit. Please check your connection and try again.');
+    }
   });
 
-  // ── Edit ────────────────────────────────
+  // ── Edit button — shows form again ─────
   editBtn.addEventListener('click', () => {
-    showFields();
+    rsvpForm.style.display  = '';
+    successEl.style.display = 'none';
+    const submitBtn = document.getElementById('rsvp-submit-btn');
+    if (submitBtn) {
+      submitBtn.textContent = 'Save my RSVP';
+      submitBtn.disabled = false;
+    }
     nameInput.focus();
   });
 
-  // ── Restore saved data on load ──────────
-  const saved = loadRSVP();
-  if (saved) {
-    populateFields(saved);
-    openForm();
-    showSuccess(getSuccessMessage());
-  }
 })();
 
 // ── EVENT LISTENERS ───────────────────────

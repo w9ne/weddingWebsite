@@ -118,13 +118,13 @@
             They broke the promise anyway because they met almost every break.
           </p>
           <p class="timeline-text">Places visited:
-             <ul>
+            <ul>
               <li>Utah x3</li>
               <li>Los Angeles x1</li>
               <li>Malaysia x1</li>
               <li>Alaska x1</li>
               <li>Hawaii x1</li>
-             </ul>
+            </ul>
           </p>
           <div class="timeline-photo-group-center">
             <img src="pics/LAbathroom.jpg" alt="" class="timeline-photo-center-potrait" />
@@ -212,10 +212,10 @@
         <div class="qr-card">
           <span class="qr-label">Wedding Funds</span>
           <div class="qr-placeholder">
-            <img src="pics/AmazonPage.png" alt="Amazon Registry QR Code" style="width:100%;height:100%;object-fit:cover;" />
+            <img src="pics/venmo.jpg" alt="Venmo QR Code" style="width:100%;height:100%;object-fit:cover;" />
           </div>
           <p class="qr-name">Venmo</p>
-          <p class="qr-desc">If you would like to donate for <br/>our wedding funds</p>
+          <p class="qr-desc">If you would like to donate for<br/>our wedding funds</p>
         </div>
       </a>
 
@@ -234,21 +234,21 @@
           <button class="rsvp-edit-btn" id="rsvp-edit-btn">Edit my RSVP</button>
         </div>
 
-        <!-- Form fields -->
-        <div id="rsvp-fields">
+        <!--GOOOOOGLE Sheets -->
+        <form id="rsvp-fields" action="https://script.google.com/macros/s/AKfycbzNopIrZAi62pgb31NGtlE0sRwtXdWQ-3qs1K2h0HWEBQy19b9AlyO2sWCfZdUCcZ5lDg/exec" method="POST">
 
           <!-- Name -->
           <div class="rsvp-field">
             <label class="rsvp-label" for="rsvp-name">Name</label>
             <input class="rsvp-input" type="text" id="rsvp-name"
-                   placeholder="Your full name" autocomplete="name" />
+                   name="name" placeholder="Your full name" autocomplete="name" />
           </div>
 
           <!-- Email -->
           <div class="rsvp-field">
             <label class="rsvp-label" for="rsvp-email">Email</label>
             <input class="rsvp-input" type="email" id="rsvp-email"
-                   placeholder="Your email address" autocomplete="email" />
+                   name="email" placeholder="Your email address" autocomplete="email" />
           </div>
 
           <!-- Attendance checkboxes -->
@@ -256,17 +256,17 @@
             <label class="rsvp-label">I will be attending:</label>
             <div class="rsvp-checks">
               <label class="rsvp-check-label">
-                <input type="checkbox" id="rsvp-sealing" class="rsvp-checkbox" />
+                <input type="checkbox" id="rsvp-sealing" name="sealing" value="Sealing at Cebu Temple" class="rsvp-checkbox" />
                 <span class="rsvp-checkmark"></span>
                 <span>Sealing at Cebu Temple</span>
               </label>
               <label class="rsvp-check-label">
-                <input type="checkbox" id="rsvp-party" class="rsvp-checkbox" />
+                <input type="checkbox" id="rsvp-party" name="party" value="Wedding afterparty in Hawaii" class="rsvp-checkbox" />
                 <span class="rsvp-checkmark"></span>
                 <span>Wedding afterparty in Hawaii</span>
               </label>
               <label class="rsvp-check-label">
-                <input type="checkbox" id="rsvp-message-only" class="rsvp-checkbox" />
+                <input type="checkbox" id="rsvp-message-only" name="message_only" value="Just a message" class="rsvp-checkbox" />
                 <span class="rsvp-checkmark"></span>
                 <span>Just want to leave a message for the couple!</span>
               </label>
@@ -278,7 +278,7 @@
             <label class="rsvp-label">Will you be bringing a guest?</label>
             <div class="rsvp-checks">
               <label class="rsvp-check-label">
-                <input type="checkbox" id="rsvp-plusone" class="rsvp-checkbox" />
+                <input type="checkbox" id="rsvp-plusone" name="plus_one" value="Yes" class="rsvp-checkbox" />
                 <span class="rsvp-checkmark"></span>
                 <span>Yes, I'm bringing a +1</span>
               </label>
@@ -289,12 +289,12 @@
           <div class="rsvp-field">
             <label class="rsvp-label" for="rsvp-message">Leave a message for the couple</label>
             <textarea class="rsvp-textarea" id="rsvp-message"
-                      placeholder="Write something kind…" rows="4"></textarea>
+                      name="message" placeholder="Write something kind…" rows="4"></textarea>
           </div>
 
-          <button class="rsvp-submit-btn" id="rsvp-submit-btn">Save my RSVP</button>
+          <button type="submit" class="rsvp-submit-btn" id="rsvp-submit-btn">Save my RSVP</button>
 
-        </div><!-- #rsvp-fields -->
+        </form><!-- #rsvp-fields -->
       </div>
     </div>
 
