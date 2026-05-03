@@ -609,6 +609,7 @@ body {
 
 .qr-label {
   font-size: 0.7rem;
+  font-weight: bold;
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--rosegold);
@@ -1366,6 +1367,7 @@ footer p {
 
   /* The label sits above the QR box */
   .qr-label {
+    font-weight: bold;
     font-size: 0.58rem;
     letter-spacing: 0.25em;
     order: -1;
