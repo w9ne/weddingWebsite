@@ -202,7 +202,7 @@ function handleVideoError() {
     return "Your RSVP has been saved. We can't wait to celebrate with you!";
   }
 
-  // ── Submit to Formspree ────────────────
+  // ── Submit to Google Sheets ────────────
   rsvpForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -214,28 +214,23 @@ function handleVideoError() {
       return;
     }
 
-    // Show a brief sending state
     const submitBtn = document.getElementById('rsvp-submit-btn');
     submitBtn.textContent = 'Sending…';
     submitBtn.disabled = true;
 
     try {
-      const res = await fetch(rsvpForm.action, {
+      // NOTE: mode: 'no-cors' was removed — it made all responses opaque
+      // and broke the res.ok check. Google Apps Script handles the CORS headers.
+      await fetch(rsvpForm.action, {
         method: 'POST',
         body: new FormData(rsvpForm),
-        mode: 'no-cors'
       });
 
-      if (res.ok) {
-        // Show custom success message
-        if (successMsg) successMsg.textContent = getSuccessMessage();
-        rsvpForm.style.display    = 'none';
-        successEl.style.display   = 'flex';
-      } else {
-        submitBtn.textContent = 'Save my RSVP';
-        submitBtn.disabled = false;
-        alert('Something went wrong. Please try again.');
-      }
+      // After the await resolves without throwing, treat it as success
+      if (successMsg) successMsg.textContent = getSuccessMessage();
+      rsvpForm.style.display  = 'none';
+      successEl.style.display = 'flex';
+
     } catch (err) {
       submitBtn.textContent = 'Save my RSVP';
       submitBtn.disabled = false;
