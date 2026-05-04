@@ -596,7 +596,7 @@ body {
 
 /* ── QR placeholder box ── */
 .qr-placeholder {
-  width: 140px;                 /* TWEAK: QR image size */
+  width: 140px;                 
   height: 140px;
   background: var(--white);
   border-radius: 4px;

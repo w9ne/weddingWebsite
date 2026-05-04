@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jared & Sabrina</title>
+  <link rel="icon" type="image/x-icon" href="pics/heartBeat.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400&display=swap" 
+  rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+  <!-- ═══ HERO ═══ -->
+  <section id="hero">
+    <div id="hero-fallback"></div>
+    <video id="hero-video" autoplay muted loop playsinline>
+      <source src="media/weddingShowcaseMobile.mp4" type="video/mp4" media="(max-width: 640px)" />
+      <source src="media/weddingStuff2.mp4" type="video/mp4" />
+    </video>
+    <div class="hero-content">
+      <p class="hero-eyebrow">You are cordially invited to celebrate</p>
+      <h1 class="hero-title">Jared <span>&</span> Sabrina</h1>
+      <p class="hero-date">August 1st 2026</p>
+    </div>
+    <div class="scroll-hint">
+      <span>Our Story</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ═══ MUSIC PLAYER ═══ -->
+  <div id="music-player">
+    <div id="music-controls">
+      <span id="music-label">Now Playing</span>
+      <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.4" />
+      <button id="music-toggle">⏸ Pause</button>
+    </div>
+    <div id="music-icon">♪</div>
+    <audio id="bg-music" loop>
+      <source src="media/heartbeatsforyou.mp3" type="audio/mpeg" />
+    </audio>
+  </div>
+
+
+  <!-- ═══ OUR STORY ═══ -->
+  <section id="story">
+    <p class="section-eyebrow">Our love story</p>
+    <h2 class="section-title">Where did we even start?</h2>
+    <div class="timeline">
+      <div class="timeline-track">
+        <div class="timeline-track-fill" id="trackFill"></div>
+        <div class="timeline-track-fill" id="trackFill2"></div>
+      </div>
+
+      <!-- ── CHAPTER 1 ── -->
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <span class="timeline-year">Chapter I · October 2023</span>
+          <h3 class="timeline-heading">What almost never happened</h3>
+          <p class="timeline-text">
+            She had noticed him more than once, and he had seen her too, but neither had ever taken the chance to speak. 
+            That all changed at the YSA Convention, when their worlds finally collided.
+          </p>
+        </div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-photo-group">
+          <img src="pics/firstmeeting.jpg" alt="" class="timeline-photo-massive" />
+        </div>
+      </div>
+
+      <!-- ── CHAPTER 2 ── -->
+      <div class="timeline-item">
+        <div class="timeline-photo-group-odd">
+          <div style="margin-left: -4rem; display: flex; flex-wrap: wrap; gap: 0.6rem;">
+            <img src="pics/firstMeetingDinner.jpg" alt="" class="timeline-photo-massive" style="object-position: 100% 5%;"/>
+            <img src="pics/cute.jpg" alt="" class="timeline-photo-massive" />
+            <img src="pics/koreabbq.jpg" alt="" class="timeline-photo-massive" />
+          </div>
+        </div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-year">Chapter II · November 2023</span>
+          <h3 class="timeline-heading">First of Many Dates</h3>
+          <p class="timeline-text">
+            Even in different cities, they somehow kept finding time for each other. What started as casual chats and late night calls turned into something a 
+            little more real with every conversation. The awkwardness didnt last long before it melted into comfort, and despite the distance and barely a month of knowing each other, 
+            they went from just friends to something much more without even realizing it.
+          </p>
+        </div>
+      </div>
+
+      <!-- ── CHAPTER 3 ── -->
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <span class="timeline-year">Chapter III · 2023-2025</span>
+          <h3 class="timeline-heading">The Long Long Game of Long-Distance</h3>
+          <p class="timeline-text">
+            Playing this game was a crazy mixture of happy, sad, anger, frustration, and all of the above. Yet they managed to find ways to love each other
+            no matter the distance. 
+          </p>
+        </div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-photo-group">
+          <img src="pics/laieTemp.jpg" alt="" class="timeline-photo-massive" />
+          <img src="pics/nightDateOnline.jpg" alt="" class="timeline-photo-massive" style="object-position: 50% 80%;" />
+        </div>
+      </div>
+
+      <!-- ── CHAPTER 4 ── -->
+      <div class="timeline-item timeline-item--center">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content-center">
+          <span class="timeline-year">Chapter IV · 2023-2025</span>
+          <h3 class="timeline-heading">Trips together</h3>
+          <p class="timeline-text">
+            Many have called them crazy and its not wrong to assume that, yet they remained committed to the promise of meeting up every other break. 
+            They broke the promise anyway because they met almost every break.
+          </p>
+          <p class="timeline-text">Places visited:
+            <ul>
+              <li>Utah x3</li>
+              <li>Los Angeles x1</li>
+              <li>Malaysia x1</li>
+              <li>Alaska x1</li>
+              <li>Hawaii x1</li>
+            </ul>
+          </p>
+          <div class="timeline-photo-group-center">
+            <img src="pics/LAbathroom.jpg" alt="" class="timeline-photo-center-potrait" />
+            <img src="pics/alaska2.jpg" alt="" class="timeline-photo-center-potrait" />
+            <img src="pics/lightLA.jpg" alt="" class="timeline-photo-center-potrait" />
+            <img src="pics/Hawaii.jpg" alt="" class="timeline-photo-center-potrait" />
+            <img src="pics/utahTemple.jpg" alt="" class="timeline-photo-center-potrait" />
+            <img src="pics/doublePolaroid.jpg" alt="" class="timeline-photo-center-potrait" />
+            <img src="pics/winterwonerland.jpg" alt="" class="timeline-photo-center-potrait" />
+            <img src="pics/disney.jpg" alt="" class="timeline-photo-center-potrait" />
+            <img src="pics/firstDateRecreate.jpg" alt="" class="timeline-photo-center-potrait" />
+          </div>
+        </div>
+      </div>
+
+      <!-- ── CHAPTER 5 ── -->
+      <div class="timeline-item timeline-item--video">
+        <div class="timeline-content">
+          <span class="timeline-year">Chapter V · December 30th 2025</span>
+          <h3 class="timeline-heading">The Proposal</h3>
+          <p class="timeline-text">
+            Alaska was a wild choice on his part, but a new place meant new experiences, right? 
+            Beneath the northern lights, a new chapter of their story began to unfold.
+          </p>
+        </div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-video-slot">
+          <video src="media/proposal.mp4" class="timeline-video" autoplay muted loop playsinline 
+          style="object-position: 100% 5%;"></video>
+        </div>
+      </div>
+
+      <!-- ── CHAPTER 6 ── -->
+      <div class="timeline-item timeline-item--final">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content-final">
+          <span class="timeline-year">Chapter VI · 2026</span>
+          <h3 class="timeline-heading">Eternity starts now</h3>
+          <p class="timeline-text">
+            Now after 3 long years, we're happy to celebrate our union together with you.
+          </p>
+        </div>
+      </div>
+
+    </div><!-- .timeline -->
+  </section>
+
+
+  <!-- ═══ REGISTRY / QR CODES ═══ -->
+  <section id="qr">
+    <div class="qr-header">
+      <p class="section-eyebrow">Celebrate with us</p>
+      <h2 class="section-title" style="margin-bottom:0.5rem;">Gift Registry</h2>
+      <p class="qr-subtext">Your presence is the greatest gift. If you'd like to celebrate further:</p>
+    </div>
+
+    <div class="qr-grid">
+
+      <!-- ── Amazon Registry ── -->
+      <a href="https://www.amazon.com/wedding/guest-view/27SP08S4Y27EB"
+         target="_blank" rel="noopener noreferrer" class="qr-card-link">
+        <div class="qr-card">
+          <span class="qr-label">Registry</span>
+          <div class="qr-placeholder">
+            <img src="pics/AmazonPage.png" alt="Amazon Registry QR Code" style="width:100%;height:100%;object-fit:cover;" />
+          </div>
+          <p class="qr-name">Amazon Registry</p>
+          <p class="qr-desc">Scan to view our<br/>wish list on Amazon</p>
+        </div>
+      </a>
+
+      <!-- ── RSVP ── -->
+      <div class="qr-card qr-card--rsvp" id="rsvp-trigger" role="button" tabindex="0"
+           aria-expanded="false" aria-controls="rsvp-form-area">
+        <span class="qr-label">Click me to RSVP!</span>
+        <div class="rsvp-icon">📜</div>
+        <p class="qr-name">RSVP</p>
+        <p class="qr-desc">Your presence is<br/>always welcome!</p>
+        <span class="rsvp-caret" aria-hidden="true">▲</span>
+      </div>
+
+      <!-- ── Venmo ── -->
+      <a href="https://venmo.com/code?user_id=3791310968325274312&created=1777735167"
+         target="_blank" rel="noopener noreferrer" class="qr-card-link">
+        <div class="qr-card">
+          <span class="qr-label">Wedding Funds</span>
+          <div class="qr-placeholder">
+            <img src="pics/venmo.jpg" alt="Venmo QR Code" style="width:100%;height:100%;object-fit:cover;" />
+          </div>
+          <p class="qr-name">Venmo</p>
+          <p class="qr-desc">If you would like to donate for<br/>our wedding funds</p>
+        </div>
+      </a>
+
+    </div><!-- .qr-grid -->
+
+    <!-- ── RSVP FORM (expands below cards) ── -->
+    <div id="rsvp-form-area" class="rsvp-form-area" aria-hidden="true">
+      <div class="rsvp-form-inner">
+        <div class="rsvp-ornament">— ✦ —</div>
+        <h3 class="rsvp-form-title">We'd love to see you there</h3>
+
+        <!-- Success state (hidden until submitted) -->
+        <div id="rsvp-success" class="rsvp-success" style="display:none;">
+          <div class="rsvp-success-icon">📩</div>
+          <p class="rsvp-success-text" id="rsvp-success-text">Your RSVP has been saved. We can't wait to celebrate with you!</p>
+          <button class="rsvp-edit-btn" id="rsvp-edit-btn">Edit my RSVP</button>
+        </div>
+
+        <!--GOOOOOGLE Sheets -->
+        <form id="rsvp-fields" action="https://script.google.com/macros/s/AKfycbxiIY5DlNRhSr8C5Ni0LzJ_qM86OI51H6AgvP83A4Zf8TmHlWd-zC09-PjBYox9OPF98Q/exec" method="POST">
+
+          <!-- Name -->
+          <div class="rsvp-field">
+            <label class="rsvp-label" for="rsvp-name">Name</label>
+            <input class="rsvp-input" type="text" id="rsvp-name"
+                   name="name" placeholder="Your full name" autocomplete="name" />
+          </div>
+
+          <!-- Email -->
+          <div class="rsvp-field">
+            <label class="rsvp-label" for="rsvp-email">Email</label>
+            <input class="rsvp-input" type="email" id="rsvp-email"
+                   name="email" placeholder="Your email address" autocomplete="email" />
+          </div>
+
+          <!-- Attendance checkboxes -->
+          <div class="rsvp-field">
+            <label class="rsvp-label">I will be attending:</label>
+            <div class="rsvp-checks">
+              <label class="rsvp-check-label">
+                <input type="checkbox" id="rsvp-sealing" name="sealing" value="Sealing at Cebu Temple" class="rsvp-checkbox" />
+                <span class="rsvp-checkmark"></span>
+                <span>Sealing at Cebu Temple</span>
+              </label>
+              <label class="rsvp-check-label">
+                <input type="checkbox" id="rsvp-message-only" name="message_only" value="Just a message" class="rsvp-checkbox" />
+                <span class="rsvp-checkmark"></span>
+                <span>Just want to leave a message for the couple!</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Plus one -->
+          <div class="rsvp-field">
+            <label class="rsvp-label">Will you be bringing a guest?</label>
+            <div class="rsvp-checks">
+              <label class="rsvp-check-label">
+                <input type="checkbox" id="rsvp-plusone" name="plus_one" value="Yes" class="rsvp-checkbox" />
+                <span class="rsvp-checkmark"></span>
+                <span>Yes, I'm bringing a +1</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Message -->
+          <div class="rsvp-field">
+            <label class="rsvp-label" for="rsvp-message">Leave a message for the couple</label>
+            <textarea class="rsvp-textarea" id="rsvp-message"
+                      name="message" placeholder="Write something kind…" rows="4"></textarea>
+          </div>
+
+          <button type="submit" class="rsvp-submit-btn" id="rsvp-submit-btn">Save my RSVP</button>
+
+        </form><!-- #rsvp-fields -->
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <div class="ornament">— ✦ —</div>
+    <p> · Jared & Sabrina · </p>
+    <p> · &copy; wong9ne · </p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
