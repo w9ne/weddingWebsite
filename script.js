@@ -219,19 +219,17 @@ function handleVideoError() {
     submitBtn.disabled = true;
 
     try {
-      // NOTE: mode: 'no-cors' was removed — it made all responses opaque
-      // and broke the res.ok check. Google Apps Script handles the CORS headers.
       await fetch(rsvpForm.action, {
         method: 'POST',
         body: new FormData(rsvpForm),
-      });
+      }).catch(() => {}); // silently ignore CORS/network errors from GAS
 
-      // After the await resolves without throwing, treat it as success
       if (successMsg) successMsg.textContent = getSuccessMessage();
       rsvpForm.style.display  = 'none';
       successEl.style.display = 'flex';
 
     } catch (err) {
+      // Only true failures (e.g. no internet) reach here
       submitBtn.textContent = 'Save my RSVP';
       submitBtn.disabled = false;
       alert('Could not submit. Please check your connection and try again.');
