@@ -16,8 +16,6 @@ function handleScroll() {
   timelineItems.forEach(item => {
     const rect     = item.getBoundingClientRect();
     const midpoint = rect.top + rect.height / 2;
-    // TWEAK: lower the first value (e.g. -0.2) to trigger even earlier
-    //        raise the second value (e.g. 1.5) to keep items visible longer
     const inView = midpoint > viewportHeight * -0.1 && midpoint < viewportHeight * 1.3;
     item.classList.toggle('visible', inView);
   });
@@ -152,7 +150,7 @@ function handleVideoError() {
   const editBtn    = document.getElementById('rsvp-edit-btn');
   const nameInput  = document.getElementById('rsvp-name');
   const sealingBox = document.getElementById('rsvp-sealing');
-  const partyBox   = document.getElementById('rsvp-party');
+  const partyBox   = document.getElementById('rsvp-party');   // null on index.html — handled safely below
   const messageBox = document.getElementById('rsvp-message-only');
 
   if (!trigger || !formArea || !rsvpForm) return;
@@ -185,13 +183,14 @@ function handleVideoError() {
   });
 
   // ── Success message based on checkboxes ─
+  // Uses optional chaining (?.) so partyBox being null on index.html won't throw an error
   function getSuccessMessage() {
-    const hasSealing = sealingBox.checked;
-    const hasParty   = partyBox.checked;
-    const hasMessage = messageBox.checked;
+    const hasSealing = sealingBox?.checked  || false;
+    const hasParty   = partyBox?.checked    || false;
+    const hasMessage = messageBox?.checked  || false;
 
     if (hasParty) {
-      return "Your RSVP has been saved. We can't wait to celebrate with you!";
+      return "Your RSVP has been saved. Details of the party will be emailed to you soon!";
     }
     if (hasSealing && !hasParty) {
       return "Your RSVP has been saved! The timing of the sealing will be sent to you soon!";
@@ -222,7 +221,7 @@ function handleVideoError() {
       await fetch(rsvpForm.action, {
         method: 'POST',
         body: new FormData(rsvpForm),
-      }).catch(() => {}); // silently ignore CORS/network errors from GAS
+      }).catch(() => {}); // silently ignore CORS errors from Google Apps Script
 
       if (successMsg) successMsg.textContent = getSuccessMessage();
       rsvpForm.style.display  = 'none';
